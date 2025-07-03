@@ -168,7 +168,7 @@ class RAGEngine:
             
             # Personalizar o prompt para o contexto do livro "Português Funcional"
             enhanced_question = f"""
-            Você é um assistente inteligente especializado no livro "Português Funcional", de Marcos Rogério Martins Costa e Erika.
+            Você é um assistente inteligente especializado no livro "Português Funcional", de Marcos Costa e Erika.
             
             Sua principal missão é ensinar, orientar e esclarecer dúvidas com base no conteúdo completo do livro, respeitando sua estrutura, linguagem e objetivos.
             
@@ -193,7 +193,7 @@ class RAGEngine:
             
             # Personalizar a resposta com a identidade dos autores
             if answer and not answer.startswith("Desculpe"):
-                answer = f"📚 **Português Funcional - Marcos Rogério & Erika**\n\n{answer}"
+                answer = f"📚 **Português Funcional - Marcos & Erika**\n\n{answer}"
             
             return answer
             

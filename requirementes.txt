@@ -1,0 +1,21 @@
+# Versões otimizadas para Windows
+streamlit==1.29.0
+langchain==0.1.0
+langchain-google-genai==0.0.6
+langchain-community==0.0.10
+chromadb==0.4.18
+PyPDF2==3.0.1
+python-dotenv==1.0.0
+
+# Usar versões pré-compiladas (wheels) para evitar compilação
+numpy==1.24.3
+scipy==1.10.1
+scikit-learn==1.3.0
+sentence-transformers==2.2.2
+
+# Alternativa ao FAISS que funciona melhor no Windows
+chromadb==0.4.18
+
+# Dependências adicionais
+tiktoken==0.5.2
+requests==2.31.0

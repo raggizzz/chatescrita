@@ -76,8 +76,8 @@ st.markdown("""
     
     /* Estilo da imagem dos personagens educadores - responsiva */
     .characters-image {
-        max-width: 250px;
-        width: 100%;
+        max-width: 180px !important;
+        width: 180px !important;
         height: auto;
         border-radius: 15px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -86,6 +86,7 @@ st.markdown("""
         display: block;
         margin: 0 auto;
         animation: float 3s ease-in-out infinite;
+        object-fit: contain;
     }
     
     .characters-image:hover {
@@ -96,7 +97,8 @@ st.markdown("""
     /* Responsividade para dispositivos móveis */
     @media (max-width: 768px) {
         .characters-image {
-            max-width: 200px;
+            max-width: 150px !important;
+            width: 150px !important;
         }
         .names-title {
             font-size: 2.5rem;
@@ -105,7 +107,8 @@ st.markdown("""
     
     @media (max-width: 480px) {
         .characters-image {
-            max-width: 150px;
+            max-width: 120px !important;
+            width: 120px !important;
         }
         .names-title {
             font-size: 2rem;
@@ -294,7 +297,8 @@ st.markdown("""
     /* Responsividade para dispositivos móveis */
     @media (max-width: 768px) {
         .characters-image {
-            max-width: 300px;
+            max-width: 150px !important;
+            width: 150px !important;
         }
         
         .names-title {
@@ -318,7 +322,8 @@ st.markdown("""
     
     @media (max-width: 480px) {
         .characters-image {
-            max-width: 250px;
+            max-width: 120px !important;
+            width: 120px !important;
         }
         
         .names-title {

@@ -166,25 +166,53 @@ class RAGEngine:
             if not self.chain:
                 return "Desculpe, o sistema ainda não foi inicializado. Por favor, carregue um documento primeiro."
             
-            # Personalizar o prompt para o contexto do livro "Português Funcional"
+            # Prompt melhorado para busca mais eficaz no livro "Português Funcional"
             enhanced_question = f"""
-            Você é um assistente inteligente especializado no livro "Português Funcional", de Marcos Costa e Erika.
+            Você é um assistente especializado no livro "Português Funcional" de Marcos Rogério Martins Costa e Iara da Silva Bezerra.
             
-            Sua principal missão é ensinar, orientar e esclarecer dúvidas com base no conteúdo completo do livro, respeitando sua estrutura, linguagem e objetivos.
+            INSTRUÇÕES CRÍTICAS:
             
-            🟢 Priorize sempre as informações do Capítulo 1 ao responder sobre tema central, objetivo da obra ou importância do conteúdo.
+            1. 🔍 BUSCA OBRIGATÓRIA: Sempre procure informações relevantes no conteúdo fornecido antes de responder.
             
-            ⚠️ Nunca baseie suas respostas apenas em trechos soltos do livro. Sempre responda com base na visão completa da obra.
+            2. 📖 CONTEÚDO DO LIVRO: O livro contém informações detalhadas sobre:
+               - Gramática da língua portuguesa (incluindo orações subordinadas, concordância, regência)
+               - Técnicas de leitura e interpretação
+               - Estratégias de escrita
+               - Comunicação oral e corporal
+               - Oratória e apresentações
+               - Estilística e variação linguística
             
-            📚 Estrutura:
-            - A obra está dividida em 10 capítulos e trata da língua portuguesa como ferramenta de transformação pessoal e profissional.
-            - Os temas incluem: leitura, escrita, oralidade, comunicação corporal, oratória, gramática, estilística e concordância.
+            3. ✅ QUANDO ENCONTRAR INFORMAÇÕES:
+               - Use SEMPRE o conteúdo do livro como base principal
+               - Cite exemplos e explicações do livro
+               - Mantenha a linguagem didática dos autores
+               - Referencie capítulos quando possível
             
-            📌 Sempre responda em português claro, com tom profissional, cordial e acessível.
+            4. ❌ NUNCA DIGA que não há informações se:
+               - O tópico está relacionado à língua portuguesa
+               - É um conceito gramatical básico ou avançado
+               - Faz parte do escopo de um livro de português funcional
             
-            Pergunta: {question}
+            5. 🎯 PARA TEMAS GRAMATICAIS (como orações subordinadas):
+               - Procure definições, classificações e exemplos
+               - Busque exercícios ou aplicações práticas
+               - Identifique regras e exceções mencionadas
+               - Encontre contextos de uso
             
-            Responda com base no conhecimento especializado do livro "Português Funcional":
+            6. 📚 ESTRUTURA DA RESPOSTA:
+               - Comece com a informação encontrada no livro
+               - Forneça definições claras
+               - Inclua exemplos práticos
+               - Mantenha tom educativo e acessível
+            
+            7. 🔄 SE REALMENTE NÃO ENCONTRAR:
+               - Reformule a busca com termos relacionados
+               - Procure em contextos mais amplos
+               - Apenas como último recurso, indique limitação
+            
+            PERGUNTA DO USUÁRIO: {question}
+            
+            Responda com base no conteúdo do livro "Português Funcional", seguindo rigorosamente as instruções acima:
             """
             
             result = self.chain({"question": enhanced_question})
@@ -193,7 +221,7 @@ class RAGEngine:
             
             # Personalizar a resposta com a identidade dos autores
             if answer and not answer.startswith("Desculpe"):
-                answer = f"📚 **Português Funcional - Marcos & Erika**\n\n{answer}"
+                answer = f"📚 **Português Funcional - Marcos Rogério & Iara Bezerra**\n\n{answer}"
             
             return answer
             

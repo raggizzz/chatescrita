@@ -112,7 +112,56 @@ class RAGEngine:
             
             retriever = self.vectorstore.as_retriever(
                 search_type="similarity",
-                search_kwargs={"k": 3}
+                search_kwargs={"k": 5}  # Aumentar para buscar mais contexto
+            )
+            
+            # Prompt personalizado para o sistema
+            from langchain.prompts import PromptTemplate
+            
+            custom_prompt = PromptTemplate(
+                input_variables=["context", "question"],
+                template="""
+                Você é um assistente especializado no livro "Português Funcional" de Marcos Rogério Martins Costa e Iara da Silva Bezerra.
+                
+                INSTRUÇÕES CRÍTICAS:
+                
+                1. 🔍 ANÁLISE OBRIGATÓRIA: Examine cuidadosamente o contexto fornecido abaixo antes de responder.
+                
+                2. 📖 CONTEÚDO DISPONÍVEL: Use as informações do contexto que incluem:
+                   - Gramática da língua portuguesa (orações subordinadas, concordância, regência)
+                   - Técnicas de leitura e interpretação
+                   - Estratégias de escrita e comunicação
+                   - Exemplos práticos e exercícios
+                
+                3. ✅ QUANDO ENCONTRAR INFORMAÇÕES NO CONTEXTO:
+                   - Use SEMPRE o conteúdo como base principal
+                   - Cite exemplos e explicações encontradas
+                   - Mantenha linguagem didática e clara
+                   - Forneça definições completas
+                
+                4. 🎯 PARA TEMAS GRAMATICAIS (como orações subordinadas):
+                   - Procure definições, classificações e exemplos no contexto
+                   - Identifique regras e aplicações práticas
+                   - Explique de forma educativa e acessível
+                
+                5. 📚 ESTRUTURA DA RESPOSTA:
+                   - Comece com definição clara do conceito
+                   - Inclua classificações quando relevantes
+                   - Forneça exemplos práticos
+                   - Use tom educativo dos autores
+                
+                6. ❌ NUNCA responda apenas "Não" ou "Não há informações":
+                   - Sempre tente extrair informações relevantes do contexto
+                   - Se o contexto for limitado, use o que estiver disponível
+                   - Construa uma resposta educativa mesmo com informações parciais
+                
+                CONTEXTO DO LIVRO:
+                {context}
+                
+                PERGUNTA: {question}
+                
+                Responda de forma completa e educativa com base no contexto fornecido:
+                """
             )
             
             self.chain = ConversationalRetrievalChain.from_llm(
@@ -120,6 +169,7 @@ class RAGEngine:
                 retriever=retriever,
                 memory=self.memory,
                 return_source_documents=True,
+                combine_docs_chain_kwargs={"prompt": custom_prompt},
                 verbose=False
             )
             return True
@@ -166,56 +216,8 @@ class RAGEngine:
             if not self.chain:
                 return "Desculpe, o sistema ainda não foi inicializado. Por favor, carregue um documento primeiro."
             
-            # Prompt melhorado para busca mais eficaz no livro "Português Funcional"
-            enhanced_question = f"""
-            Você é um assistente especializado no livro "Português Funcional" de Marcos Rogério Martins Costa e Iara da Silva Bezerra.
-            
-            INSTRUÇÕES CRÍTICAS:
-            
-            1. 🔍 BUSCA OBRIGATÓRIA: Sempre procure informações relevantes no conteúdo fornecido antes de responder.
-            
-            2. 📖 CONTEÚDO DO LIVRO: O livro contém informações detalhadas sobre:
-               - Gramática da língua portuguesa (incluindo orações subordinadas, concordância, regência)
-               - Técnicas de leitura e interpretação
-               - Estratégias de escrita
-               - Comunicação oral e corporal
-               - Oratória e apresentações
-               - Estilística e variação linguística
-            
-            3. ✅ QUANDO ENCONTRAR INFORMAÇÕES:
-               - Use SEMPRE o conteúdo do livro como base principal
-               - Cite exemplos e explicações do livro
-               - Mantenha a linguagem didática dos autores
-               - Referencie capítulos quando possível
-            
-            4. ❌ NUNCA DIGA que não há informações se:
-               - O tópico está relacionado à língua portuguesa
-               - É um conceito gramatical básico ou avançado
-               - Faz parte do escopo de um livro de português funcional
-            
-            5. 🎯 PARA TEMAS GRAMATICAIS (como orações subordinadas):
-               - Procure definições, classificações e exemplos
-               - Busque exercícios ou aplicações práticas
-               - Identifique regras e exceções mencionadas
-               - Encontre contextos de uso
-            
-            6. 📚 ESTRUTURA DA RESPOSTA:
-               - Comece com a informação encontrada no livro
-               - Forneça definições claras
-               - Inclua exemplos práticos
-               - Mantenha tom educativo e acessível
-            
-            7. 🔄 SE REALMENTE NÃO ENCONTRAR:
-               - Reformule a busca com termos relacionados
-               - Procure em contextos mais amplos
-               - Apenas como último recurso, indique limitação
-            
-            PERGUNTA DO USUÁRIO: {question}
-            
-            Responda com base no conteúdo do livro "Português Funcional", seguindo rigorosamente as instruções acima:
-            """
-            
-            result = self.chain({"question": enhanced_question})
+            # Usar o chain com prompt personalizado já configurado
+            result = self.chain({"question": question})
             
             answer = result.get("answer", "Desculpe, não consegui gerar uma resposta.")
             
